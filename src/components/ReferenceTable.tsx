@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { hangulData, consonantsList, vowelsList, commonPatchims } from '../data/hangul';
+import { hangulData, consonantsList, vowelsList } from '../data/hangul';
 
 interface ReferenceTableProps {
     onClose: () => void;
@@ -123,51 +123,64 @@ export const ReferenceTable: React.FC<ReferenceTableProps> = ({ onClose }) => {
 
                     {/* Patchim Information */}
                     {tab === 'patchim' && (
-                        <div style={{ maxWidth: '800px' }}>
+                        <div style={{ maxWidth: '900px' }}>
                             <p style={{ marginBottom: '2rem', lineHeight: '1.6' }}>
-                                パッチム（終声）は、文字の下に付く子音です。<br />
-                                基本的には子音と同じ文字を使いますが、<b>発音にはルールがあります。</b><br />
-                                ここでは代表的なパッチムの発音ルールを紹介します。
+                                パッチム（終声）は全27種類ありますが、発音のルールによって<b>7つの代表音</b>に集約されます。<br />
+                                次に母音が続かない場合や、子音が続く場合にこの音が使われます。
                             </p>
 
                             <table style={{ borderCollapse: 'collapse', width: '100%' }}>
                                 <thead>
                                     <tr style={{ background: 'rgba(255,255,255,0.1)' }}>
-                                        <th style={{ padding: '1rem', textAlign: 'left' }}>パッチム</th>
-                                        <th style={{ padding: '1rem', textAlign: 'left' }}>発音のイメージ</th>
-                                        <th style={{ padding: '1rem', textAlign: 'left' }}>例 (文字 / 読み)</th>
+                                        <th style={{ padding: '1rem', textAlign: 'left', width: '120px' }}>代表音</th>
+                                        <th style={{ padding: '1rem', textAlign: 'left' }}>該当するパッチム</th>
+                                        <th style={{ padding: '1rem', textAlign: 'left' }}>発音の説明</th>
+                                        <th style={{ padding: '1rem', textAlign: 'left' }}>例</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {commonPatchims.map(p => {
-                                        // Example generator: Add patchim to 'ka' (가) -> gak (각)
-                                        const exampleChar = String.fromCharCode((0 * 21 + 0) * 28 + 0xAC00 + p.uIndex);
-
-                                        return (
-                                            <tr key={p.char} style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
-                                                <td style={{ padding: '1rem', fontSize: '1.5rem', fontWeight: 'bold', color: '#ffec99' }}>
-                                                    {p.char}
-                                                </td>
-                                                <td style={{ padding: '1rem' }}>
-                                                    {p.kana === 'ッ' ? '詰まる音 (k/p/t)' :
-                                                        p.kana === 'ン' ? '鼻に抜ける音 (n/ng/m)' :
-                                                            p.kana === 'ル' ? '舌を巻く音 (l)' : p.kana}
-                                                </td>
-                                                <td style={{ padding: '1rem' }}>
-                                                    <span style={{ fontSize: '1.2rem', marginRight: '0.5rem' }}>가 ({'ka'}) + {p.char} = {exampleChar}</span>
-                                                    <br />
-                                                    <span style={{ opacity: 0.7, fontSize: '0.9rem' }}>
-                                                        読み: ka{p.romaji} / カ{p.kana}
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        );
-                                    })}
+                                    {[
+                                        { sound: 'ㄱ [k]', chars: 'ㄱ, ㅋ, ㄲ, ㄳ, ㄺ', desc: '喉を詰まらせる「k」の音', example: '학 (hak / 学)' },
+                                        { sound: 'ㄴ [n]', chars: 'ㄴ, ㄵ, ㄶ', desc: '舌を上顎につける「n」の音', example: '안 (an / 案内)' },
+                                        { sound: 'ㄷ [t]', chars: 'ㄷ, ㅅ, ㅆ, ㅈ, ㅊ, ㅌ, ㅎ', desc: '舌先を歯の裏で止める「t」の音', example: '옷 (ot / 服)' },
+                                        { sound: 'ㄹ [l]', chars: 'ㄹ, ㄼ, ㄽ, ㄾ, ㅀ', desc: '舌を巻く「l」の音', example: '달 (dal / 月)' },
+                                        { sound: 'ㅁ [m]', chars: 'ㅁ, ㄻ', desc: '口を閉じる「m」の音', example: '맘 (mam / 心)' },
+                                        { sound: 'ㅂ [p]', chars: 'ㅂ, ㅍ, ㄿ, ㅄ', desc: '口を閉じて止める「p」の音', example: '밥 (bap / ご飯)' },
+                                        { sound: 'ㅇ [ng]', chars: 'ㅇ', desc: '鼻に抜ける「ng」の音', example: '가방 (gabang / 鞄)' },
+                                    ].map((row, i) => (
+                                        <tr key={i} style={{ borderBottom: '1px solid rgba(255,255,255,0.1)' }}>
+                                            <td style={{ padding: '1rem', fontSize: '1.2rem', fontWeight: 'bold', color: '#ffec99' }}>
+                                                {row.sound}
+                                            </td>
+                                            <td style={{ padding: '1rem', fontSize: '1.1rem', letterSpacing: '0.1em' }}>
+                                                {row.chars}
+                                            </td>
+                                            <td style={{ padding: '1rem', fontSize: '0.9rem', opacity: 0.9 }}>
+                                                {row.desc}
+                                            </td>
+                                            <td style={{ padding: '1rem', fontSize: '0.9rem', opacity: 0.8 }}>
+                                                {row.example}
+                                            </td>
+                                        </tr>
+                                    ))}
                                 </tbody>
                             </table>
-                            <div style={{ marginTop: '2rem', padding: '1rem', background: 'rgba(255,255,255,0.05)', borderRadius: '8px', fontSize: '0.9rem' }}>
-                                ※ 実際には27種類のパッチムがありますが、発音はこの7種類程度（ㄱ,ㄴ,ㄷ,ㄹ,ㅁ,ㅂ,ㅇ）に集約されます。<br />
-                                ※ 次の文字に母音が来ると音が繋がる「連音化」など、文脈によって発音が変わることがあります。
+
+                            <div style={{ marginTop: '2rem', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
+                                <div style={{ padding: '1rem', background: 'rgba(255,255,255,0.05)', borderRadius: '12px' }}>
+                                    <h4 style={{ margin: '0 0 0.5rem 0', color: '#ffec99' }}>💡 連音化（リエゾン）</h4>
+                                    <p style={{ margin: 0, fontSize: '0.85rem', lineHeight: '1.5' }}>
+                                        パッチムの次に母音（ㅇ）が来ると、パッチムの音が次の文字に移動して発音されます。<br />
+                                        例：<b>한국어 (Hanguk-eo) → [ハングゴ]</b>
+                                    </p>
+                                </div>
+                                <div style={{ padding: '1rem', background: 'rgba(255,255,255,0.05)', borderRadius: '12px' }}>
+                                    <h4 style={{ margin: '0 0 0.5rem 0', color: '#ffec99' }}>💡 2重パッチムのコツ</h4>
+                                    <p style={{ margin: 0, fontSize: '0.85rem', lineHeight: '1.5' }}>
+                                        文字が2つ並んでいる場合は、基本的には左側を読みますが、一部（ㄺ, ㄻ, ㄿ）は右側を読みます。<br />
+                                        例：<b>닭 (鶏) → [タク]</b>
+                                    </p>
+                                </div>
                             </div>
                         </div>
                     )}

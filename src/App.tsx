@@ -96,8 +96,8 @@ function App() {
 
       {showChart && <ReferenceTable onClose={() => setShowChart(false)} />}
 
-      <footer style={{ marginTop: 'auto', padding: '2rem', opacity: 0.5, fontSize: '0.8rem' }}>
-        練習中: {quizData.length} 文字収録
+      <footer style={{ marginTop: 'auto', padding: '1.5rem', opacity: 0.5, fontSize: '0.8rem' }}>
+        v0.1.2
       </footer>
     </div>
   );
