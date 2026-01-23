@@ -82,10 +82,16 @@ function App() {
       </header>
 
       <main style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-        <QuizCard
-          data={quizData[currentIndex]}
-          onNext={handleNext}
-        />
+        {quizData.length > 0 && quizData[currentIndex] ? (
+          <QuizCard
+            data={quizData[currentIndex]}
+            onNext={handleNext}
+          />
+        ) : (
+          <div style={{ padding: '2rem', background: 'rgba(255,255,255,0.1)', borderRadius: '12px', color: 'white' }}>
+            読み込み中、またはデータがありません... (Level {level})
+          </div>
+        )}
       </main>
 
       {showChart && <ReferenceTable onClose={() => setShowChart(false)} />}
